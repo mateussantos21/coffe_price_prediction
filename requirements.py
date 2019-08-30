@@ -12,7 +12,7 @@ from statsmodels.tsa.arima_model import ARIMA
 import warnings
 
 ## Set inputs parameters
-delays = 20
+delays = 10
 percent_for_test = 0.2
 #features = []
 
@@ -24,7 +24,7 @@ MA = 0
 
 ## Create Multi Layer Perceptron Neural Network from sci kit learn library
 # https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html
-mlp = nn.MLPRegressor(hidden_layer_sizes=(2000,1000), # number of neurons on each hidden layer
+mlp = nn.MLPRegressor(hidden_layer_sizes=(400,200), # number of neurons on each hidden layer
                       activation='relu',            # activation function {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
                       solver='adam',                # solver to minimize loss function {‘lbfgs’, ‘sgd’, ‘adam’}
                       alpha=0.01,                   # penalty parameter
@@ -45,16 +45,16 @@ mlp = nn.MLPRegressor(hidden_layer_sizes=(2000,1000), # number of neurons on eac
 rbf = gp.GaussianProcessRegressor(kernel=gp.kernels.RBF(1.0),  # kernel function https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.kernels.RBF.html#sklearn.gaussian_process.kernels.RBF
                                   alpha=0.01,                  # value added to the diagonal of the kernel matrix during fitting
                                   optimizer='fmin_l_bfgs_b',   # function to optimize kernel’s parameters minimizing loss
-                                  n_restarts_optimizer= 100,   # numbers to reoptimize
+                                  n_restarts_optimizer= 50,   # numbers to reoptimize
                                   random_state=1)              # if int, random_state is the seed used by the random number generator
 
 
 ## Adaptative Neuro Fuzzy Interference System using Tensor Flow library
 # https://github.com/tiagoCuervo/TensorANFIS
 
-anfis_rules = 200          # number of rules
+anfis_rules = 100          # number of rules
 anfis_lr = 0.01            # learning rate
-anfis_num_epochs = 10000   # epochs
+anfis_num_epochs = 1000   # epochs
 anfis_verbose = True       # print loss every iteration
 
 def heatmap(data, row_labels, col_labels, ax=None,
