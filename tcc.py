@@ -15,52 +15,6 @@ Daniel Furtado Leite
 from requirements import *
 warnings.filterwarnings("ignore")
 
-## Set inputs parameters
-delays = 10
-percent_for_test = 0.2
-#features = []
-
-## Auto Regressive Integrated Moving Average using statsmodel
-# http://www.statsmodels.org/stable/generated/statsmodels.tsa.arima_model.ARIMA.html
-AR = 2
-I = 1
-MA = 0
-
-## Create Multi Layer Perceptron Neural Network from sci kit learn library
-# https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html
-mlp = nn.MLPRegressor(hidden_layer_sizes=(200,100), # number of neurons on each hidden layer
-                      activation='relu',            # activation function {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
-                      solver='adam',                # solver to minimize loss function {‘lbfgs’, ‘sgd’, ‘adam’}
-                      alpha=0.00001,                   # penalty parameter
-                      learning_rate='constant',     # function for learning rate {'constant', ‘invscaling’, ‘adaptive’}
-                      learning_rate_init=0.01,      # learning rate first value
-                      power_t=0.5,                  # the exponent for inverse scaling learning rate. It is used in updating effective learning rate
-                      max_iter=1000,                 # maximum number of iterations
-                      shuffle=True,                 # whether to shuffle samples in each iteration
-                      random_state=None,            # if int, random_state is the seed used by the random number generator
-                      tol=0.000001,                 # tolerance for optimization in n_iter_no_change iterations
-                      verbose=True,                 # print loss every iteration
-                      validation_fraction=0.15,      # proportion of set to use as validation
-                      n_iter_no_change=1000 )       # iterations to look at tol
-
-
-## Create Gaussian Process Regressor using a Radial Basis Function kernel from sci kit learn library
-# https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.GaussianProcessRegressor.html#sklearn.gaussian_process.GaussianProcessRegressor
-rbf = gp.GaussianProcessRegressor(kernel=gp.kernels.RBF(1.0),  # kernel function https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.kernels.RBF.html#sklearn.gaussian_process.kernels.RBF
-                                  alpha=0.00001,               # value added to the diagonal of the kernel matrix during fitting
-                                  optimizer='fmin_l_bfgs_b',   # function to optimize kernel’s parameters minimizing loss
-                                  n_restarts_optimizer= 10,   # numbers to reoptimize
-                                  random_state=None)           # if int, random_state is the seed used by the random number generator
-
-
-## Adaptative Neuro Fuzzy Interference System using Tensor Flow library
-# https://github.com/tiagoCuervo/TensorANFIS
-
-anfis_rules = 50          # number of rules
-anfis_lr = 0.01            # learning rate
-anfis_num_epochs = 100     # epochs
-anfis_verbose = True     # print loss every iteration
-
 
 cafe = pd.read_csv('MercadoCafe.csv', sep=';')
 feature_names = ['Preço NYBOT','Variação NYBOT','Preço BM&F','Variação BM&F', 'Preço R$ Físico','Variação R$ Físico', 'Preço US$ Físico','Variação US$ Físico', 'Cotação Dólar', 'Posição Bancos Comprado', 'Posição Bancos Vendido', 'Diferença Posição Bancos', 'Posição Produtores Comprado', 'Posição Produtores Vendido', 'Posição Outros Comprado', 'Posição Outros Vendido', 'Diferença Posição Outros', 'Contrados Negociados Comprado', 'Contrados Negociados Vendido', 'Diferença Contrados Negociados', 'Contratos em Aberto']
