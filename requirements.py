@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sklearn.gaussian_process as gp
 import sklearn.neural_network as nn
 import sklearn.preprocessing as prepro
@@ -10,52 +11,13 @@ from matplotlib import pyplot as plt
 import tensorflow as tf
 from statsmodels.tsa.arima_model import ARIMA
 import warnings
+import time
 
 ## Set inputs parameters
 delays = 10
-percent_for_test = 0.2
+percent_for_test = 0.1
+
 #features = []
-
-## Auto Regressive Integrated Moving Average using statsmodel
-# http://www.statsmodels.org/stable/generated/statsmodels.tsa.arima_model.ARIMA.html
-AR = 2
-I = 1
-MA = 0
-
-## Create Multi Layer Perceptron Neural Network from sci kit learn library
-# https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html
-mlp = nn.MLPRegressor(hidden_layer_sizes=(400,200), # number of neurons on each hidden layer
-                      activation='relu',            # activation function {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
-                      solver='adam',                # solver to minimize loss function {‘lbfgs’, ‘sgd’, ‘adam’}
-                      alpha=0.01,                   # penalty parameter
-                      learning_rate='constant',     # function for learning rate {'constant', ‘invscaling’, ‘adaptive’}
-                      learning_rate_init=0.01,      # learning rate first value
-                      power_t=0.5,                  # the exponent for inverse scaling learning rate. It is used in updating effective learning rate
-                      max_iter=10000,               # maximum number of iterations
-                      shuffle=True,                 # whether to shuffle samples in each iteration
-                      random_state=None,            # if int, random_state is the seed used by the random number generator
-                      tol=0.0000001,                 # tolerance for optimization in n_iter_no_change iterations
-                      verbose=True,                 # print loss every iteration
-                      validation_fraction=0.15,      # proportion of set to use as validation
-                      n_iter_no_change=1000 )       # iterations to look at tol
-
-
-## Create Gaussian Process Regressor using a Radial Basis Function kernel from sci kit learn library
-# https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.GaussianProcessRegressor.html#sklearn.gaussian_process.GaussianProcessRegressor
-rbf = gp.GaussianProcessRegressor(kernel=gp.kernels.RBF(1.0),  # kernel function https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.kernels.RBF.html#sklearn.gaussian_process.kernels.RBF
-                                  alpha=0.01,                  # value added to the diagonal of the kernel matrix during fitting
-                                  optimizer='fmin_l_bfgs_b',   # function to optimize kernel’s parameters minimizing loss
-                                  n_restarts_optimizer= 50,   # numbers to reoptimize
-                                  random_state=1)              # if int, random_state is the seed used by the random number generator
-
-
-## Adaptative Neuro Fuzzy Interference System using Tensor Flow library
-# https://github.com/tiagoCuervo/TensorANFIS
-
-anfis_rules = 100          # number of rules
-anfis_lr = 0.01            # learning rate
-anfis_num_epochs = 1000   # epochs
-anfis_verbose = True       # print loss every iteration
 
 def heatmap(data, row_labels, col_labels, ax=None,
             cbar_kw={}, cbarlabel="", **kwargs):
@@ -182,16 +144,16 @@ def mean_absolute_percentage_error(y_true, y_pred):
 
 class ANFIS:
 
-    def __init__(self, n_inputs, n_rules, learning_rate=1e-2):
+    def __init__(self, n_inputs, n_rules, learning_rate=1e-2, mu_string = "mu", sigma_string = "sigma", y_string = "y"):
         self.n = n_inputs
         self.m = n_rules
         self.inputs = tf.placeholder(tf.float32, shape=(None, n_inputs))  # Input
         self.targets = tf.placeholder(tf.float32, shape=None)  # Desired output
-        mu = tf.get_variable("mu", [n_rules * n_inputs],
+        mu = tf.get_variable(mu_string, [n_rules * n_inputs],
                              initializer=tf.random_normal_initializer(0, 1))  # Means of Gaussian MFS
-        sigma = tf.get_variable("sigma", [n_rules * n_inputs],
+        sigma = tf.get_variable(sigma_string, [n_rules * n_inputs],
                                 initializer=tf.random_normal_initializer(0, 1))  # Standard deviations of Gaussian MFS
-        y = tf.get_variable("y", [1, n_rules], initializer=tf.random_normal_initializer(0, 1))  # Sequent centers
+        y = tf.get_variable(y_string, [1, n_rules], initializer=tf.random_normal_initializer(0, 1))  # Sequent centers
 
         self.params = tf.trainable_variables()
 

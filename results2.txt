@@ -1,0 +1,27 @@
+\begin{table}[] 
+\begin{tabular}{|l|l|l|l|l|} 
+\hline 
+ & \textbf{ARIMA} & \textbf{MLP} & \textbf{RBF} & \textbf{ANFIS} \\ \hline 
+\textbf{MSE} & 6.89 & 8.73 & 1476.37 & 8.18 \\ \hline 
+\textbf{RMSE} & 2.63 & 2.95 & 38.42 & 2.86 \\ \hline 
+\textbf{MAPE} & 1.36 & 1.58 & 23.13 & 1.47 \\ \hline 
+\textbf{Tempo de execução} & 19.70 & 1.01 & 5.91 & 26.81 \\ \hline 
+\end{tabular} 
+\end{table} 
+
+
+
+
+\begin{table}[] 
+\begin{tabular}{|l|l|l|l|l|} 
+\hline 
+ & \textbf{ARIMA} & \textbf{MLP} & \textbf{RBF} & \textbf{ANFIS} \\ \hline 
+\textbf{MSE} & 6.88 & 6.84 & 6.98 & 7.31 \\ \hline 
+\textbf{RMSE} & 2.62 & 2.62 & 2.64 & 2.70 \\ \hline 
+\textbf{MAPE} & 1.36 & 1.37 & 1.38 & 1.40 \\ \hline 
+\textbf{Tempo de execução} & 15.20 & 24.97 & 194.86 & 34.86 \\ \hline 
+\end{tabular} 
+\end{table}
+
+
+{'ar': 1, 'i': 0, 'ma': 0}{'lr': 0.0008, 'fl': 500, 'sl': 300}{'alpha': 0.0001, 'restart': 100, 'kernel': 1.0}{'lr': 0.01, 'rules': 150}
