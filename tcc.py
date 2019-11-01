@@ -66,7 +66,7 @@ mlp = nn.MLPRegressor(hidden_layer_sizes=(100,), # number of neurons on each hid
 rbf = gp.GaussianProcessRegressor(kernel=gp.kernels.RBF(1.0),  # kernel function https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.kernels.RBF.html#sklearn.gaussian_process.kernels.RBF
                                   alpha=0.00001,                  # value added to the diagonal of the kernel matrix during fitting
                                   optimizer='fmin_l_bfgs_b',   # function to optimize kernel’s parameters minimizing loss
-                                  n_restarts_optimizer = 200,   # numbers to reoptimize
+                                  n_restarts_optimizer = 50,   # numbers to reoptimize
                                   random_state=13)              # if int, random_state is the seed used by the random number generator
 
 
@@ -156,7 +156,7 @@ table += '\end{tabular} \n\end{table} \n\n\n\n\n'
 
 results = table
 
-fig, axs = plt.subplots(4, figsize=(20, 10))
+fig, axs = plt.subplots(4, figsize=(20, 16))
 
 axs[0].plot(time_array, real_value, 'k-', label = 'valor real')
 axs[0].plot(time_array, ari_result, 'm-', label = 'ARIMA')
@@ -167,7 +167,7 @@ axs[2].plot(time_array, rbf_result, 'b-', label = 'RBF')
 axs[3].plot(time_array, real_value, 'k-')
 axs[3].plot(time_array, anf_result, 'g-', label = "ANFIS")
 fig.legend(loc='upper right')
-
+plt.savefig('essaaquivai.png')
 arima_best_score = math.sqrt(metrics.mean_squared_error(real_value, ari_result))
 mlp_best_score = math.sqrt(metrics.mean_squared_error(real_value, mlp_result))
 rbf_best_score = math.sqrt(metrics.mean_squared_error(real_value, rbf_result))
@@ -224,7 +224,7 @@ for lr in lr_array_mlp:
     for fl in fl_array:
         for sl in sl_array:
 
-            mlp = nn.MLPRegressor(hidden_layer_sizes=(fl,sl), learning_rate_init=lr, max_iter=1000, tol=0.0000001, validation_fraction=0.1, n_iter_no_change=200, verbose=True)
+            mlp = nn.MLPRegressor(hidden_layer_sizes=(fl,sl), learning_rate_init=lr, max_iter=1000, tol=0.0000001, validation_fraction=0.1, n_iter_no_change=1000, verbose=True)
             inicio = time.time()
             mlp.fit(X_train, y_train)
             ypredictedMLP = mlp.predict(X_test)
@@ -255,7 +255,7 @@ for lr in lr_array_mlp:
 # # search no rbf
 
 alpha_array = [0.0001]
-restart_array = [300]
+restart_array = [50]
 kernel_array = [0.005]
 
 rbf_optimal = {"alpha": 0.000001, "restart": 10, "kernel": 1.0}
@@ -357,7 +357,7 @@ print(results)
 file.write(results)
 file.close()
 
-fig, axs = plt.subplots(4, figsize=(20, 10))
+fig, axs = plt.subplots(4, figsize=(20, 16))
 
 axs[0].plot(time_array, real_value, 'k-', label = 'valor real')
 axs[0].plot(time_array, ari_opt_result, 'm-', label = 'ARIMA')
@@ -378,6 +378,6 @@ from scipy.ndimage.filters import gaussian_filter1d
 #
 # plt.legend()
 
-plt.show()
+plt.savefig('essaaquivaiotimizada.png')
 
 
