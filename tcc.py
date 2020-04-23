@@ -23,19 +23,23 @@ feature_names = ['Preço NYBOT','Variação NYBOT','Preço BM&F','Variação BM&
 #im, cbar = heatmap(cafe.corr(), feature_names, feature_names, ax=ax, cmap="YlGn", cbarlabel="Coeficiente de Pearson")
 #fig.tight_layout()
 
+cafe['Data_certa'] = pd.to_datetime(cafe['Data'], dayfirst=True)
+cafe = cafe.set_index('Data_certa')
 time_full = cafe['Data']
 preco_ny = cafe['Preco ny']
 preco_fisico = cafe['preco US$']
 preco_cotacao = cafe['preco Dolar']
 prices = cafe['Preco bmf']
 
-#plt.figure()
-#plt.plot(time_full,preco_ny, 'r-', label = 'Preço NYBOT (Us$)')
-#plt.plot(time_full,prices, 'g-', label = 'Preço BM&F (Us$)')
-#plt.plot(time_full,preco_fisico, 'b-', label = 'Preço CEPEA/ESALq (Us$)')
-#plt.plot(time_full,preco_cotacao, 'k-', label = 'Cotação do Dólar')
-#plt.legend()
-#plt.show()
+fig, axs = plt.subplots()
+axs.plot(cafe['Preco ny'], 'r-', label = 'NYBOT')
+axs.plot(cafe['Preco bmf'], 'g-', label = 'BM&F')
+axs.plot(cafe['preco US$'], 'b-', label = 'CEPEA/ESALq')
+axs.set_xlabel('tempo')
+axs.set_ylabel('Preço (US$)')
+axs.grid(True)
+plt.legend()
+plt.show()
 
 ## Auto Regressive Integrated Moving Average using statsmodel
 # http://www.statsmodels.org/stable/generated/statsmodels.tsa.arima_model.ARIMA.html
@@ -380,4 +384,4 @@ from scipy.ndimage.filters import gaussian_filter1d
 
 plt.savefig('essaaquivaiotimizada.png')
 
-
+# blabla
