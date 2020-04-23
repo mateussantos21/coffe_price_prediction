@@ -385,3 +385,5 @@ from scipy.ndimage.filters import gaussian_filter1d
 plt.savefig('essaaquivaiotimizada.png')
 
 # blabla
+
+#outro comentario
