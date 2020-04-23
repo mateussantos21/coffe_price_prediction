@@ -31,6 +31,7 @@ preco_fisico = cafe['preco US$']
 preco_cotacao = cafe['preco Dolar']
 prices = cafe['Preco bmf']
 
+<<<<<<< HEAD
 fig, axs = plt.subplots()
 axs.plot(cafe['Preco ny'], 'r-', label = 'NYBOT')
 axs.plot(cafe['Preco bmf'], 'g-', label = 'BM&F')
@@ -40,6 +41,56 @@ axs.set_ylabel('Preço (US$)')
 axs.grid(True)
 plt.legend()
 plt.show()
+=======
+#plt.figure()
+#plt.plot(time_full,preco_ny, 'r-', label = 'Preço NYBOT (Us$)')
+#plt.plot(time_full,prices, 'g-', label = 'Preço BM&F (Us$)')
+#plt.plot(time_full,preco_fisico, 'b-', label = 'Preço CEPEA/ESALq (Us$)')
+#plt.plot(time_full,preco_cotacao, 'k-', label = 'Cotação do Dólar')
+#plt.legend()
+#plt.show()
+
+## Auto Regressive Integrated Moving Average using statsmodel
+# http://www.statsmodels.org/stable/generated/statsmodels.tsa.arima_model.ARIMA.html
+AR = 2
+I = 1
+MA = 0
+
+## Create Multi Layer Perceptron Neural Network from sci kit learn library
+# https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPRegressor.html
+mlp = nn.MLPRegressor(hidden_layer_sizes=(100,), # number of neurons on each hidden layer
+                      activation='relu',            # activation function {‘identity’, ‘logistic’, ‘tanh’, ‘relu’}
+                      solver='adam',                # solver to minimize loss function {‘lbfgs’, ‘sgd’, ‘adam’}
+                      alpha=0.0001,                   # penalty parameter
+                      learning_rate='constant',     # function for learning rate {'constant', ‘invscaling’, ‘adaptive’}
+                      learning_rate_init=0.001,      # learning rate first value
+                      power_t=0.5,                  # the exponent for inverse scaling learning rate. It is used in updating effective learning rate
+                      max_iter=200,               # maximum number of iterations
+                      shuffle=True,                 # whether to shuffle samples in each iteration
+                      random_state=None,            # if int, random_state is the seed used by the random number generator
+                      tol=0.0001,                 # tolerance for optimization in n_iter_no_change iterations
+                      verbose=True,                 # print loss every iteration
+                      validation_fraction=0.1,      # proportion of set to use as validation
+                      n_iter_no_change=200)       # iterations to look at tol
+
+
+## Create Gaussian Process Regressor using a Radial Basis Function kernel from sci kit learn library
+# https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.GaussianProcessRegressor.html#sklearn.gaussian_process.GaussianProcessRegressor
+rbf = gp.GaussianProcessRegressor(kernel=gp.kernels.RBF(1.0),  # kernel function https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.kernels.RBF.html#sklearn.gaussian_process.kernels.RBF
+                                  alpha=0.00001,                  # value added to the diagonal of the kernel matrix during fitting
+                                  optimizer='fmin_l_bfgs_b',   # function to optimize kernel’s parameters minimizing loss
+                                  n_restarts_optimizer = 50,   # numbers to reoptimize
+                                  random_state=13)              # if int, random_state is the seed used by the random number generator
+
+
+## Adaptative Neuro Fuzzy Interference System using Tensor Flow library
+# https://github.com/tiagoCuervo/TensorANFIS
+
+anfis_rules = 100          # number of rules
+anfis_lr = 0.01            # learning rate
+anfis_num_epochs = 200   # epochs
+anfis_verbose = True       # print loss every iteration
+>>>>>>> 06e5759f99e4e19bee6f0868d8eaeeeed402db02
 
 ## Auto Regressive Integrated Moving Average using statsmodel
 # http://www.statsmodels.org/stable/generated/statsmodels.tsa.arima_model.ARIMA.html
@@ -387,3 +438,4 @@ plt.savefig('essaaquivaiotimizada.png')
 # blabla
 
 #outro comentario
+
